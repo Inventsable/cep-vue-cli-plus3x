@@ -5,12 +5,21 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "sign": "node ./src/utils/dev/npmCommands.js sign",
+    "switch": "node ./src/utils/dev/npmCommands.js switch",
+    "update": "node ./src/utils/dev/npmCommands.js update",
+    "register": "node ./src/utils/dev/npmCommands.js register",
+    "help": "node ./src/utils/dev/npmCommands.js help"
   },
   "dependencies": {
+    "@mdi/font": "^4.5.95",
     "core-js": "^3.1.2",
+    "lottie-web": "^5.5.9",
+    "starlette": "^0.4.4",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.6"
+    "vue-router": "^3.0.6",
+    "vuetify": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
@@ -18,9 +27,20 @@
     "@vue/cli-plugin-router": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "babel-eslint": "^10.0.1",
+    "boxen": "^4.1.0",
+    "chalk": "^2.4.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "fs-extra": "^8.1.0",
+    "inquirer": "^7.0.0",
+    "make-runnable": "^1.3.6",
+    "ora": "^4.0.2",
+    "sass": "^1.19.0",
+    "sass-loader": "^8.0.0",
+    "shelljs": "^0.8.3",
+    "vue-cli-plugin-vuetify": "^1.1.0",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify-loader": "^1.3.0"
   },
   "eslintConfig": {
     "root": true,
