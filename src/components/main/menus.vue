@@ -57,9 +57,7 @@ export default {
       let str = `<Menu>`;
       this.flyout.menu.forEach(item => {
         if (item.id)
-          str += `<MenuItem Id="${item.id}" Label="${item.label}" Enabled="${
-            item.enabled
-          }" Checked="${item.checked}" />`;
+          str += `<MenuItem Id="${item.id}" Label="${item.label}" Enabled="${item.enabled}" Checked="${item.checked}" />`;
         else str += `<MenuItem Label="---" />`;
       });
       return (str += `</Menu>`);

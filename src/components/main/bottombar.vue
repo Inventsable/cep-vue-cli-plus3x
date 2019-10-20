@@ -1,4 +1,5 @@
 <template>
+  <!-- Updated, simpler version.vue -->
   <div class="bottomBar" :style="getBottomBarStyle()">
     <span class="version-id">{{version}}</span>
   </div>

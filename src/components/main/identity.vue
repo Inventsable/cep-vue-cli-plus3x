@@ -22,9 +22,6 @@ export default {
             ""
           )
         : null;
-      // return this.isMounted
-      //   ? this.app.csInterface.getSystemPath(SystemPath.EXTENSION)
-      //   : null;
     },
     localhost() {
       if (this.isMounted) {
@@ -107,7 +104,6 @@ export default {
     }
   },
   mounted() {
-    // this.app.identity = this;
     this.OS =
       navigator.platform.indexOf("Win") > -1
         ? "Windows"
@@ -132,6 +128,16 @@ export default {
       });
       const vr = this.getVersion(target);
       console.log(`${target.windowType}: ${target.name} v${vr}`);
+    },
+    getVersion(ext) {
+      if (this.isMounted) {
+        const xml = window.cep.fs.readFile(`${ext.basePath}/CSXS/manifest.xml`);
+        const verID = /ExtensionBundleVersion\=\"(\d|\.)*(?=\")/;
+        const match = xml.data.match(verID);
+        return match && match.length
+          ? match[0].replace(/\w*\=\"/, "")
+          : "unknown";
+      }
     },
     getAllData() {
       return {
@@ -170,16 +176,6 @@ export default {
           version: this.appVersion
         }
       };
-    },
-    getVersion(ext) {
-      if (this.isMounted) {
-        const xml = window.cep.fs.readFile(`${ext.basePath}/CSXS/manifest.xml`);
-        const verID = /ExtensionBundleVersion\=\"(\d|\.)*(?=\")/;
-        const match = xml.data.match(verID);
-        return match && match.length
-          ? match[0].replace(/\w*\=\"/, "")
-          : "unknown";
-      }
     }
   }
 };

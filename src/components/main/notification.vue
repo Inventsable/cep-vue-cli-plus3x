@@ -1,4 +1,7 @@
 <template>
+  <!-- Example snackbar. Contents can be altered at any time via App.notification -->
+  <!-- To show simply toggle status prop at the App level (eg: this.app.notification.status = true;) -->
+  <!--  -->
   <v-snackbar
     v-if="notModal"
     v-model="status"
@@ -22,7 +25,6 @@ export default {
     color: "primary "
   }),
   mounted() {
-    console.log("Snackbar mounted");
     this.app.notification = this;
   },
   computed: {
@@ -40,11 +42,6 @@ export default {
     hide() {
       this.status = false;
     }
-    // noteStyle() {
-    //   return `
-    //     z-index: 1001;
-    //   `;
-    // }
   }
 };
 </script>

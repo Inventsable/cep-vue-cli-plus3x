@@ -1,4 +1,5 @@
 <template>
+  <!-- Example Vuetify navigation drawer -->
   <v-navigation-drawer :style="clipTop()" v-model="open" absolute dark temporary clipped>
     <v-list style="background-color: red;">
       <v-list-item v-for="item in items" :key="item.title" link>
@@ -34,6 +35,8 @@ export default {
     }
   },
   methods: {
+    // Though this should be clipped already, Vuetify is picky with toolbar/app/drawer placement.
+    // We can manually adjust the top and height to force clipped behavior (drawer doesn't overlap toolbar)
     clipTop() {
       return `
         margin-top: 48px;
@@ -43,6 +46,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

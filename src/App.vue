@@ -1,17 +1,23 @@
 <template>
   <v-app>
-    <toolbar color="color-input" v-if="notModal" />
+    <!-- Required components -->
     <identity />
     <menus />
-    <drawer />
 
+    <!-- Optional flavor features -->
+    <toolbar color="color-input" v-if="notModal" />
+    <drawer />
     <notification />
     <loadingscreen />
     <bottombar v-if="notModal" :dark="true" />
+
+    <!-- If not using toolbar or bottombar, correct below style function to prevent false dimensions. -->
     <v-content :style="getContentStyle()">
+      <!-- Overlay is just a flourish. Feel free to remove but keep router-view -->
       <v-overlay :value="overlay">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
+
       <router-view />
     </v-content>
   </v-app>
@@ -23,7 +29,7 @@
 import starlette from "starlette";
 
 // Utility components
-// https://github.com/Inventsable/cep-vue-cli-router2x#components
+// https://github.com/Inventsable/cep-vue-cli-plus3x#components
 import identity from "./components/main/identity.vue";
 import menus from "./components/main/menus.vue";
 
@@ -37,6 +43,7 @@ import drawer from "./components/main/drawer.vue";
 export default {
   name: "App",
   components: {
+    // required
     identity,
     menus,
     // optional
@@ -50,6 +57,7 @@ export default {
     storage() {
       return window.localStorage;
     },
+    // If extensionID has "modal" we know it's not the panel:
     notModal() {
       return this.identity ? !/modal/.test(this.identity.extID) : null;
     }
@@ -60,13 +68,13 @@ export default {
     isMounted: false,
     identity: null,
     menus: null,
-    // routes
+    // Assigning routes here makes it easy to communicate between routes
     home: null,
-    // optional components
+    modal: null,
+    // optional components as app attributes
     toolbar: null,
     loadingscreen: null,
     overlay: false,
-    modal: null,
     notification: null
   }),
   mounted() {
@@ -84,20 +92,22 @@ export default {
     this.isMounted = true;
     let self = this;
 
-    // @@@ REMOVE THIS FROM TEMPLATE
+    // The modal and panel share the same Vue instance.
+    // If this is the modal window (we know by it's ID from manifest.xml), push it to the Modal route.
     if (!this.notModal) {
       this.$router.push({ name: "modal" });
-      // this.modal.loaded = true;
-      // this.modal.recolorMangoBG();
       this.modal.init();
     } else {
       this.csInterface.addEventListener(
+        // General a name-specific close event listener for that modal (doesn't work if X is pressed)
         `${this.identity.extID.match(/.*\./)[0]}modal-close`,
         evt => {
+          // Show a snackbar notification as proof we communicated and print input data to HelloWorld.vue
           self.notification.show();
           self.home.msg = evt.data;
         }
       );
+      // This listener is unnecessary unless using the v-overlay component
       this.csInterface.addEventListener(
         `${this.identity.extID.match(/.*\./)[0]}modal-loaded`,
         evt => {
@@ -110,7 +120,10 @@ export default {
   },
   methods: {
     launchModal() {
+      // Show feedback loader while waiting 2 - 3 seconds for the app to open our modal
       this.overlay = true;
+
+      // Dynamically open the modal at any time
       this.csInterface.requestOpenExtension(
         `${this.identity.extID.match(/.*\./)[0]}modal`,
         ""
@@ -123,7 +136,8 @@ export default {
     },
     getContentStyle() {
       return this.notModal
-        ? `
+        ? // This should be more dynamic and not use static values.
+          `
           max-height: calc(100vh - 78px);
           overflow-y: auto;
           margin-top: 48px;
@@ -208,7 +222,7 @@ export default {
   --quint: cubic-bezier(0.84, 0, 0.16, 1);
   --toolbar-height: 48px;
   --bottombar-height: 30px;
-  /*  */
+
   background-color: var(--color-bg);
   color: var(--color-default);
   font-family: "Open Sans", sans-serif;

@@ -1,4 +1,7 @@
 <template>
+  <!-- Example loading/booting screen -->
+  <!--  -->
+  <!-- An absolute DIV is used with a higher z-index, and CSS keyframe properties to fade in/out -->
   <div class="loading-screen" v-if="showLoadingScreen">
     <div :class="isLoaded ? 'loading-out' : 'loading-in'">
       <slottie ref="slottie" @done="stopLoading()" />
@@ -7,6 +10,7 @@
 </template>
 
 <script>
+// Same component is shared between wrench and mango. Difference is hastily done within slottie
 import slottie from "../slottie";
 
 export default {

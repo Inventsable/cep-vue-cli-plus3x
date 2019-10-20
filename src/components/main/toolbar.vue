@@ -1,4 +1,5 @@
 <template>
+  <!-- New-gen redressing of navbar using Vuetify's new distinct app-bar component -->
   <v-app-bar
     :color="this.realColor"
     style="position: absolute; z-index: 3;"
@@ -48,13 +49,12 @@ export default {
     document.querySelectorAll(".theme--dark.v-sheet").forEach(item => {
       item.style.backgroundColor = this.realColor;
     });
-    console.log(this.$el);
-    console.log(this.$el.style.height);
   },
   computed: {
     app() {
       return this.$root.$children[0];
     },
+    // Defer to passed prop as bg color else be transparent
     realColor() {
       if (this.color) {
         return /color/.test(this.color)
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     openDrawer() {
-      this.app.drawer.open = true;
+      if (this.app.drawer) this.app.drawer.open = true;
     },
     checkAction(item) {
       if (item.route) {
@@ -76,12 +76,6 @@ export default {
         console.log("Hello");
         this.app.launchModal();
       }
-    },
-    getToolbarStyle() {
-      return null;
-      // return `
-      //   background-color: ${this.realColor};
-      // `;
     },
     isActiveRoute(target) {
       if (target == this.$route.name) {

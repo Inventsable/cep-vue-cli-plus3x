@@ -1,6 +1,6 @@
 <template>
   <div class="main-content pt-4">
-    <span class="title pa-4" style="color: var(--color-default)">Routing support</span>
+    <span class="title pa-4">Routing support</span>
     <span class="subheader">Seamlessly switching between HTML pages</span>
   </div>
 </template>
@@ -14,13 +14,13 @@ export default {
     app() {
       return this.$root.$children[0];
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 
 <style>
 .main-content {
+  color: var(--color-default);
   display: flex;
   flex-direction: column;
   justify-content: center;

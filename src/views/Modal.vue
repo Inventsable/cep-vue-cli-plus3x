@@ -1,4 +1,8 @@
 <template>
+  <!--  -->
+  <!-- Sample modal view. I like further abstracting views from components 
+  in case I want to easily add toolbars or other features-->
+  <!--  -->
   <ModalScreen />
 </template>
 
@@ -16,11 +20,18 @@ export default {
     }
   },
   mounted() {
-    let self = this;
+    //
+    // This is meant to send an event to the panel when the modal closes (when X is pressed)
     this.app.csInterface.addEventListener(
       "com.adobe.csxs.events.WindowVisibilityChanged",
-      function(evt) {
-        this.app.registerMsg(evt);
+      //
+      // Results are unreliable, it's best not to freeze or rely on the modal's state in the event
+      // the user might manually close it rather than let you programmatically do so.
+      evt => {
+        this.app.dispatchEvent(
+          `${this.app.identity.extID.match(/.*\./)[0]}modal-close`,
+          null
+        );
       }
     );
   }
